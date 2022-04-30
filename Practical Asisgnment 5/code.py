@@ -5,6 +5,7 @@ import random
 p = 308517851123965903797430863907
 g = random.randint(1, p)
 
+# calculates (num ^ power) % mod
 def calculate_power_modulo(num, power, mod):
     if power == 0:
         return 1;
@@ -25,13 +26,15 @@ class Person:
     
     def get_public_key(self):
         return self.public_key
-        
+    
+    # Person will send message to another person by encrypting the original message
     def send_message(self, message, recepient):
         recepient_public_key = recepient.get_public_key()
         key = calculate_power_modulo(recepient_public_key, self.private_key, p)
         encrypted_message = message * key
         return encrypted_message
-        
+    
+    # Recipient will decrypt the message received from the sender
     def receive_message(self, encrypted_message, sender):
         encrypted_message %= p
         sender_public_key = sender.get_public_key()
